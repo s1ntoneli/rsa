@@ -11,6 +11,7 @@ function App() {
         <Toaster position="top-right" />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/share" element={<Share />} />
           <Route path="/share/:publicKey" element={<Share />} />
         </Routes>
       </div>

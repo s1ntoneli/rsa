@@ -19,9 +19,9 @@ export default function Share() {
     try {
       const encrypted = encryptMessage(decodedPublicKey, message);
       setEncryptedMessage(encrypted);
-      toast.success('Message encrypted successfully!');
+      toast.success('消息加密成功！');
     } catch (error) {
-      toast.error('Encryption failed. Please check the public key format.');
+      toast.error('加密失败。请检查公钥格式。');
     }
   };
 
@@ -29,14 +29,14 @@ export default function Share() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12">
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Encrypt Message</h1>
-          <p className="text-lg text-gray-600">Send an encrypted message that only the recipient can read</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">加密消息</h1>
+          <p className="text-lg text-gray-600">发送一条只有接收者能读取的加密消息</p>
         </div>
         
         <div className="bg-white rounded-xl shadow-lg p-8 space-y-8 border border-gray-100">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Recipient's Public Key:
+              接收者的公钥：
             </label>
             <textarea
               readOnly
@@ -47,13 +47,13 @@ export default function Share() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Your Message:
+              你的消息：
             </label>
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className="w-full h-32 p-4 border border-gray-200 rounded-lg font-mono text-sm"
-              placeholder="Type your message here..."
+              placeholder="在此输入你的消息..."
             />
           </div>
 
@@ -61,13 +61,13 @@ export default function Share() {
             onClick={handleEncrypt}
             className="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200"
           >
-            Encrypt
+            加密
           </button>
 
           {encryptedMessage && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Encrypted Message:
+                加密后的消息：
               </label>
               <textarea
                 readOnly
@@ -77,11 +77,11 @@ export default function Share() {
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(encryptedMessage);
-                  toast.success('Encrypted message copied to clipboard!');
+                  toast.success('加密消息已复制到剪贴板！');
                 }}
                 className="mt-4 w-full sm:w-auto bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors duration-200"
               >
-                Copy Encrypted Message
+                复制加密消息
               </button>
             </div>
           )}

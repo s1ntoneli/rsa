@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { encryptMessage } from '../utils/crypto';
+import { encryptMessage, decodePublicKey } from '../utils/crypto';
 import toast from 'react-hot-toast';
 
 export default function Share() {
@@ -11,7 +11,14 @@ export default function Share() {
 
   useEffect(() => {
     if (publicKey) {
-      setDecodedPublicKey(decodeURIComponent(publicKey));
+      try {
+        const decodedKey = decodePublicKey(publicKey);
+        setDecodedPublicKey(decodedKey);
+      } catch (error) {
+        console.error('解码公钥失败:', error);
+        toast.error('无效的公钥格式，请检查链接是否完整');
+        setDecodedPublicKey('');
+      }
     }
   }, [publicKey]);
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { generateKeyPair, decryptMessage } from '../utils/crypto';
+import { generateKeyPair, decryptMessage, encodePublicKey } from '../utils/crypto';
 import toast from 'react-hot-toast';
 
 export default function Home() {
@@ -47,9 +47,23 @@ export default function Home() {
     window.URL.revokeObjectURL(url);
   };
 
-  const getShareableLink = () => {
-    const encodedKey = encodeURIComponent(keyPair.publicKey);
-    return `${window.location.origin}/share/${encodedKey}`;
+  const copyShareLink = () => {
+    try {
+      const encodedKey = encodePublicKey(keyPair.publicKey);
+      const shareableLink = `${window.location.origin}/share/${encodedKey}`;
+      console.log('分享链接:', shareableLink);
+      navigator.clipboard.writeText(shareableLink)
+        .then(() => {
+          toast.success('分享链接已复制到剪贴板！');
+        })
+        .catch((err) => {
+          console.error('复制失败:', err);
+          alert(`请手动复制链接：${shareableLink}`);
+        });
+    } catch (error) {
+      console.error('生成链接失败:', error);
+      toast.error('生成分享链接失败');
+    }
   };
 
   return (
@@ -87,10 +101,7 @@ export default function Home() {
                   下载私钥
                 </button>
                 <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(getShareableLink());
-                    toast.success('分享链接已复制到剪贴板！');
-                  }}
+                  onClick={copyShareLink}
                   className="flex-1 bg-purple-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors duration-200"
                 >
                   复制分享链接
